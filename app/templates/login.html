@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<h1>Sign In </h1>
+	<h4> or <a href="{{ url_for('register') }}">Register</a></h4>
+		<form id='loginform' method='post' action='/login'>
+			<p>
+			Username: <input type='text' id='username' name='username' placeholder='Username' required>
+			</p>
+			<p>
+			Password: <input type='password' id='password' name='password' placeholder='Password' required>
+			</p>
+			<button type='submit' class='btn btn-default'>Submit</button>
+		</form>		
+{% endblock %}

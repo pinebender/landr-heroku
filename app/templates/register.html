@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1> Register</h1>
+	<form id='signupform' method='post' action='/register'>
+		<p>Username:<br/><input type='text' id='username' name='username' placeholder='Username' required></p>
+		<p>Password:<br/><input type='password' name='password' id='password' placeholder='Password' required></p>
+		<p>Verify Password:<br/><input type='password' name='verify' id='verify' placeholder='Verify Password'required></p>
+		<button type='submit' class='btn btn-default'>Submit</button>
+	</form>
+
+
+
+
+
+{% endblock %}

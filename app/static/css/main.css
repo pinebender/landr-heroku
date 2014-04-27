@@ -1,0 +1,159 @@
+@import url("bootstrap.css");
+
+html, body {
+	color: #356857;
+	background-color: #fff;
+	height:100%;
+}
+
+a {
+	color:#5f8946;
+}
+a:hover {
+	color:#a3c48f
+}
+
+.title {
+	padding-top: 10px;
+	padding-bottom: 5px;
+}
+
+.maincontainer {
+	border: 0px solid #ccc;
+	background-color: #fff;
+	height:100%;
+	min-height: 100%;
+
+}
+
+.fill {
+	min-height:100%;
+}
+
+.navbar-default .navbar-nav {
+	/*padding-bottom:10px;*/
+}
+
+.navbar-default .navbar-nav > li > a {
+	
+	color: #FFF;
+
+}
+
+.navbar-default .navbar-nav > li > a:active {
+	color: #EEE;
+}
+
+.navbar {
+	background-color: #365857;
+	border-bottom: 1px solid #eee;
+	font-size: 1.5em;
+	margin-bottom: 0px;
+}
+
+
+.navbar-right a {
+	margin-right: 15px;
+}
+
+.navlinks {
+	/*border: 1px solid #15a01b;*/
+}
+
+.title {
+	text-align:center;
+	/*word-spacing: 30px;*/
+	letter-spacing:3px;
+}
+
+.btn {
+	border-radius: 0px;
+	border-color: #fff
+}
+
+.btn-default {
+	background-color: #ffd119;
+	color: #fff;	
+}
+
+.btn-default:hover {
+	background-color:#ffe57b;
+	color: #fff;
+	border-color: #fff;
+}
+
+.btn-danger {
+	background-color: #d2332f;
+}
+
+.btn-danger:hover {
+	background-color: #D9534F;
+	border-color: #fff;
+}
+
+
+.taskcontrols {
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+.smaller{
+	font-size: 75%;
+}
+
+.topcell {
+	text-align: center;
+	margin-right: 5px;
+	margin-left: 5px;
+	border-bottom: 8px solid #ddd;
+	margin-top:0px;
+	background-color: #fff;
+
+}
+
+.tasklist {
+	width:100%;
+}
+
+.tasklist td{
+	border-bottom: 0px solid #ddd;
+	padding: 0px;
+}
+
+.tasklist tr:nth-child(even){
+	background-color: #f8f8f8;
+}
+
+.featuredreward
+{
+	text-align:center;
+
+}
+
+.submitbuttons
+{
+	margin-top:10px;
+}
+/*
+.topleftcell {
+	text-align: center;
+	border-top: 0px solid #356857;
+	border-bottom: 10px solid #ddd;
+	border-right: 0px solid #356857;
+	min-height:100px;
+
+}
+
+.toprightcell {
+	text-align:center;
+	border-top: 0px solid #356857;
+	border-bottom: 10px solid #ddd;
+	border-left: 0px solid #356857;
+	min-height:100px;
+}
+*/
+
+#addform {
+	/*margin-top: 30px;*/
+	/*text-align: center;*/
+}

@@ -1,0 +1,16 @@
+.header {
+    background-color:#365857;
+    color: #fff;
+    text-align: left;
+    border-radius: 20px;
+    
+    
+}
+
+.header .navbar-default{
+    border: none;
+    border-top:1px solid #fff;
+    border-radius:0;
+    
+    
+}
