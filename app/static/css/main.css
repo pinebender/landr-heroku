@@ -1,5 +1,8 @@
 @import url("bootstrap.css");
 
+
+
+
 html, body {
 	color: #356857;
 	background-color: #fff;
@@ -16,9 +19,13 @@ a:hover {
 .title {
 	padding-top: 10px;
 	padding-bottom: 5px;
+	/*text-align:center;*/
+	word-spacing: 10px;
+	letter-spacing:3px;
 }
 
 .maincontainer {
+	position: relative;
 	border: 0px solid #ccc;
 	background-color: #fff;
 	height:100%;
@@ -60,11 +67,6 @@ a:hover {
 	/*border: 1px solid #15a01b;*/
 }
 
-.title {
-	text-align:center;
-	/*word-spacing: 30px;*/
-	letter-spacing:3px;
-}
 
 .btn {
 	border-radius: 0px;
@@ -92,10 +94,6 @@ a:hover {
 }
 
 
-.taskcontrols {
-	margin-top: 2px;
-	margin-bottom: 2px;
-}
 
 .smaller{
 	font-size: 75%;
@@ -111,6 +109,7 @@ a:hover {
 
 }
 
+
 .tasklist {
 	width:100%;
 }
@@ -124,6 +123,27 @@ a:hover {
 	background-color: #f8f8f8;
 }
 
+.tlheaders {
+	font-weight: bold;
+}
+
+.rewardlist {
+	width:100%;
+}
+
+.rewardlist td{
+	border-bottom: 0px solid #ddd;
+	padding: 0px;
+}
+
+.rewardlist tr:nth-child(even){
+	background-color: #f8f8f8;
+}
+
+.rlheaders {
+	font-weight: bold;
+}
+
 .featuredreward
 {
 	text-align:center;
@@ -133,6 +153,21 @@ a:hover {
 .submitbuttons
 {
 	margin-top:10px;
+}
+
+.taskcontrols {
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+.colcontrols
+{
+	width: 10px;
+}
+
+.addform
+{
+	border-right: 0px solid #ddd
 }
 /*
 .topleftcell {

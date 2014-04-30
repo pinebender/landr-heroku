@@ -1,15 +1,5 @@
 {% extends "layout.html" %}
 {% block content %}
-	
-	<div class="row topcell">
-		<div class="col-md-6 col-xs-6 col-sm-6"> 
-			<h2>Hi{% if username %},<br/> <span style="color:#ffd119;">{{ username }}</span>{% endif %}!</h2>
-		</div>
-		<div class="col-md-6 col-xs-6 col-sm-6"> 
-			<h2>Points<br/>
-			<span style="color:#ffd119; font-size=30px;">{{points}}</span></h2>
-		</div>	
-	</div>
 
 	<div class="row">
 		<div class="col-md-8 col-xs-8 col-sm-8">
@@ -23,7 +13,7 @@
 				<tr>
 					<td style="width:80%"><h3>{{ task.title }}</h3></td>
 					<!-- <td>{{task.body}}</td> -->
-					<td style="width:20%"><h4>{{task.pub_date.strftime('%b %d, %Y')}}</h4></td>
+					<td style="width:20%"><h4>{{task.dateadded.strftime('%b %d, %Y')}}</h4></td>
 				</tr>
 			{% endfor %}
 			</table>

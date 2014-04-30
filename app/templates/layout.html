@@ -20,6 +20,7 @@
 						<li><a href="{{ url_for('home') }}">Home</a></li>
 						{% if session %}
 						<li><a href="{{ url_for('tasks') }}">Tasks</a></li>
+						<li><a href="{{ url_for('rewards') }}">Rewards</a></li>
 						{% endif %}
 						<li><a href="{{ url_for('about') }}">About</a></li>
 					</ul>
@@ -31,11 +32,12 @@
 						{% endif %}
 					</ul>
 				</nav>
+			{% include "scoreboard.html" %}
 			</div>
 		</header>
 
 
-		<div class="container maincontainer">
+		<div class="container maincontainer ">
 			{% block content %}
 			{% endblock %}
 

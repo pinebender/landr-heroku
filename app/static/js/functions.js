@@ -23,7 +23,7 @@ $(document).ready(function() {
 
 	$("#cancelbutton").click(function()
 	{
-		$("#addform").fadeOut();
+		$("#addform").fadeOut(0);
 		$("#submitbutton").fadeOut(0);
 		$("#cancelbutton").fadeOut(0);
 		$("#showaddform").fadeIn(0);

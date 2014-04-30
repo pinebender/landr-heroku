@@ -1,14 +1,12 @@
-{% extends "layout.html"}
-{% block content %}
 
+{% if username %}
 <div class="row topcell">
 	<div class="col-md-6 col-xs-6 col-sm-6"> 
-		<h2>Hi{% if username %},<br/> <span style="color:#ffd119;">{{ username }}</span>{% endif %}!</h2>
+		<h2>Hi,<br/> <span style="color:#ffd119;">{{ username }}</span>!</h2>
 	</div>
 	<div class="col-md-6 col-xs-6 col-sm-6"> 
 		<h2>Points<br/>
 		<span style="color:#ffd119; font-size=30px;">{{points}}</span></h2>
 	</div>	
 </div>
-
-{% endblock %}
+{% endif %}
