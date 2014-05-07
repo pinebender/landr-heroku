@@ -6,9 +6,9 @@ from wtforms.validators import Required, EqualTo, Optional, Length, Email, Numbe
 
 # WTForms
 class RegistrationForm(Form):
-	username = TextField('Username', [validators.Length(min=4, max=25, message=("username must be between 4 and 25 characters")), validators.Required(), ])
+	username = TextField('Username', [validators.Length(min=4, max=25, message=("Username must be between 4 and 25 characters in length.")), validators.Required(), ])
 	#email = TextField('Email Address', [validators.Length(min=6, max=35), Required()])
-	password = PasswordField('Password', [validators.Length(min=6, message=("Password must be at least 6 characters")), validators.Required(), validators.EqualTo('verify', message='Password does not match confirmation.')])
+	password = PasswordField('Password', [validators.Length(min=6, message=("Password must be at least 6 characters long.")), validators.Required(), validators.EqualTo('verify', message='Password does not match confirmation.')])
 	verify = PasswordField('Confirm Password')
 
 class LoginForm(Form):
