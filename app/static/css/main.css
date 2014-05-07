@@ -1,194 +1,209 @@
 @import url("bootstrap.css");
 
 
-
-
-html, body {
-	color: #356857;
-	background-color: #fff;
-	height:100%;
+.header{
+	min-height: 100px;
 }
 
-a {
-	color:#5f8946;
-}
-a:hover {
-	color:#a3c48f
-}
-
-.title {
-	padding-top: 10px;
-	padding-bottom: 5px;
-	/*text-align:center;*/
-	word-spacing: 10px;
-	letter-spacing:3px;
-}
-
-.maincontainer {
-	position: relative;
-	border: 0px solid #ccc;
-	background-color: #fff;
-	height:100%;
-	min-height: 100%;
-
-}
-
-.fill {
-	min-height:100%;
-}
-
-.navbar-default .navbar-nav {
-	/*padding-bottom:10px;*/
-}
-
-.navbar-default .navbar-nav > li > a {
-	
-	color: #FFF;
-
-}
-
-.navbar-default .navbar-nav > li > a:active {
-	color: #EEE;
-}
-
-.navbar {
-	background-color: #365857;
-	border-bottom: 1px solid #eee;
-	font-size: 1.5em;
-	margin-bottom: 0px;
-}
-
-
-.navbar-right a {
-	margin-right: 15px;
-}
-
-.navlinks {
-	/*border: 1px solid #15a01b;*/
-}
-
-
-.btn {
-	border-radius: 0px;
-	border-color: #fff
-}
-
-.btn-default {
-	background-color: #ffd119;
-	color: #fff;	
-}
-
-.btn-default:hover {
-	background-color:#ffe57b;
+.logo{
 	color: #fff;
-	border-color: #fff;
+	font-size: 5em;
+	text-align:left;
+}
+.logo a{
+	/*vertical-align: baseline*/
 }
 
-.btn-danger {
-	background-color: #d2332f;
+.frontcontainer{
+	color: #fff;
+	 background-color: #592759;
 }
 
-.btn-danger:hover {
-	background-color: #D9534F;
-	border-color: #fff;
+.frontcontainer a{
+	color: #fff;
 }
 
-
-
-.smaller{
-	font-size: 75%;
+.frontcontainer a:hover{
+	color: #f8d547;
+	text-decoration: none;
 }
 
-.topcell {
-	text-align: center;
-	margin-right: 5px;
-	margin-left: 5px;
-	border-bottom: 8px solid #ddd;
-	margin-top:0px;
+.loginform {
+/*	color: #592759;
+	background-color: #fff;*/
+	text-align:center;
+	border: 2px solid #fff;
+	border-radius: 3px;
+	padding-bottom: 15px
+}
+
+.logininput {
+	color: #592759
+}
+
+.homecontainer{
+	color: #fff;
+	background-color: #592759;
+}
+
+.homecontainer a{
+	color: #fff;
+}
+
+.homecontainer a:hover{
+	color: #f8d547;
+	text-decoration:none;
+}
+
+.listcontainer{
+	color: #fff;
+	background-color: #006666;
+	height:100%;
+	padding-top: 10px;
+}
+
+.listcontainer a{
+	color: #fff;
+}
+
+.listcontainer a:hover{
+	color: #f8d547;
+	text-decoration:none;
+}
+
+.rewardcontainer{
+	color: #fff;
+	background-color: #f8d547;
+	height:100%;
+	padding-top: 10px;
+}
+
+.rewardcontainer a{ 
+	color: #fff;
+}
+
+.rewardcontainer a:hover{
+	color: #006666;
+	text-decoration:none;
+}
+
+.userbox{
+	margin-top: 30px;
+	min-height: 50px;
 	background-color: #fff;
-
-}
-
-
-.tasklist {
-	width:100%;
-}
-
-.tasklist td{
-	border-bottom: 0px solid #ddd;
-	padding: 0px;
-}
-
-.tasklist tr:nth-child(even){
-	background-color: #f8f8f8;
-}
-
-.tlheaders {
-	font-weight: bold;
-}
-
-.rewardlist {
-	width:100%;
-}
-
-.rewardlist td{
-	border-bottom: 0px solid #ddd;
-	padding: 0px;
-}
-
-.rewardlist tr:nth-child(even){
-	background-color: #f8f8f8;
-}
-
-.rlheaders {
-	font-weight: bold;
-}
-
-.featuredreward
-{
-	text-align:center;
-
-}
-
-.submitbuttons
-{
-	margin-top:10px;
-}
-
-.taskcontrols {
-	margin-top: 2px;
-	margin-bottom: 2px;
-}
-
-.colcontrols
-{
-	width: 10px;
-}
-
-.addform
-{
-	border-right: 0px solid #ddd
-}
-/*
-.topleftcell {
+	color: #006666;
 	text-align: center;
-	border-top: 0px solid #356857;
-	border-bottom: 10px solid #ddd;
-	border-right: 0px solid #356857;
-	min-height:100px;
-
+	border-radius: 3px;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
-.toprightcell {
-	text-align:center;
-	border-top: 0px solid #356857;
-	border-bottom: 10px solid #ddd;
-	border-left: 0px solid #356857;
-	min-height:100px;
+.userbox a {
+	color: #f8d547;
 }
-*/
 
-#addform {
-	/*margin-top: 30px;*/
-	/*text-align: center;*/
+.userbox a:hover{
+	color: #006666;
+}
+
+
+.listheader{
+	border-radius:3px;
+	padding:3px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+
+
+.listitem{
+	background-color: #fff;
+	color: #006666;
+	border-radius: 3px;
+	padding: 3px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.rewarditem{
+	background-color: #fff;
+	color: #f8d547;
+	border-radius: 3px;
+	padding: 3px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.unavailable{
+	color: #ccc;
+}
+
+.listcontrols .btn{
+	color: #006666;
+	border: none;
+	padding: none;
+	font-size: 1em;
+}
+
+.listcontrols .btn:hover{
+	color: #f8d547;
+	background-color: #fff;
+}
+
+.listaddbtn {	
+	width: 70px; 
+	height: 50px; 
+	text-align: center; 
+	font-size: 2.5em;
+	color: #006666;
+}
+
+.listaddtitle {
+	color: 006666;
+	font-size: 1em;
+}
+
+.listaddvalue {
+	width: 160px;
+	height: 50px;
+	text-align: center;
+	color: #f8d547;
+	font-size: 2.5em;
+}
+
+.rewardcontrols .btn{
+	color: #f8d547;
+	border: none;
+	padding: none;
+	font-size: 1em;
+}
+
+.rewardcontrols .btn:hover{
+	color: #006666;
+	background-color: #fff;
+}
+
+.rewardaddbtn {	
+	width: 70px; 
+	height: 50px; 
+	text-align: center; 
+	font-size: 2.5em;
+	color: #f8d547;
+}
+
+.rewardaddtitle {
+	color: #f8d547;
+	font-size: 1em;
+}
+
+.rewardaddcost {
+	width: 160px;
+	height: 50px;
+	text-align: center;
+	color: #006666;
+	font-size: 2.5em;
+}
+
+.footer {
+	height: 80px;
 }

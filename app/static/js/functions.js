@@ -8,27 +8,32 @@ $(document).ready(function() {
 
 	})
 */
+	if ($("#reloadform").is('*'))
+	{
+		// $(document).scrollTop( $("#addform").offset().top);
+	}
 
 	$("#showaddform").click(function()
 	{
 		$("#showaddform").fadeOut(0);
-		$("#addform").fadeIn();
+		$("#addtask").fadeIn(0);
+		$("#addreward").fadeIn(0);
 		$("#cancelbutton").fadeIn(0);
 		$("#submitbutton").fadeIn(0);
-		$(function() {
-	  		$(document).scrollTop( $("#addform").offset().top );  
-		});
+		// $(document).scrollTop( $("#addform").offset().top );		
+	});
+
+	$("#regclick").click(function()
+	{
+		$("#loginform").fadeOut(0);
+		$("#regform").fadeIn();
+	});
+
+	$("#loginclick").click(function()
+	{
+		$("#regform").fadeOut(0);
+		$("#loginform").fadeIn();
 		
 	});
-
-	$("#cancelbutton").click(function()
-	{
-		$("#addform").fadeOut(0);
-		$("#submitbutton").fadeOut(0);
-		$("#cancelbutton").fadeOut(0);
-		$("#showaddform").fadeIn(0);
-	});
-
-	
 
 });

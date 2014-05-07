@@ -1,107 +1,144 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<!-- Show available unclaimed rewards -->
-
 <div class="row">
-	<div class="col-md-12 col-xs-12 col-sm-12">
-		<h2>Rewards: <button type="button" class="btn btn-default btn-sm" id="showaddform">Add Reward</button></h2>
-		<table class="rewardlist">
-			<tr class="rlheaders">
-				<td>Title</td>
-				<td>Description</td>
-				<td>Cost</td>
-				<td>Date Added</td>
-			</tr>
-		{% for reward in rewards %}
-			{% if reward.cost <= points %}
-			<tr>
-				<td>{{ reward.title }}</td>
-				<td>{{ reward.body|safe }}</td>
-				<td>{{ reward.cost }}</td>
-				<td>{{ reward.dateadded.strftime('%b, %d, %Y') }}</td>
-				<td class="colcontrols">
-					<form method='post' action='/redeem' id='redeemreward{{reward.id}}'></form>
-					
-						<input type='hidden' name='redeemrewardid' value='{{ reward.id }}' form='redeemreward{{reward.id}}'>
-						<button type='submit' class='btn btn-default btn-xs taskcontrols' form='redeemreward{{reward.id}}'>Redeem</button>
-				</td>
-				<td class="colcontrols">
-					<form method='post' action='/deletereward' id='deletereward{{reward.id}}'></form>
-						<input type='hidden' name='deleterewardid' value='{{ reward.id }}' form='deletereward{{reward.id}}'>
-						<button type='submit' class='btn btn-danger btn-xs taskcontrols' form='deletereward{{reward.id}}'>Delete</button>
-				</td>
-			</tr>
-			{% endif %}
-		{% endfor %}
-		{% for reward in rewards %}
-			{% if reward.cost > points %}
-				<tr>
-					<td>{{ reward.title }}</td>
-					<td>{{ reward.body|safe }}</td>
-					<td>{{ reward.cost }}</td>
-					<td>{{ reward.dateadded.strftime('%b, %d, %Y') }}</td>
-					<td class="colcontrols"></td>
-					<td class="colcontrols">		
-						<form method='post' action='/deletereward' id='deletereward{{reward.id}}'></form>
-							<input type='hidden' name='deleterewardid' value='{{ reward.id }}' form='deletereward{{reward.id}}'>
-							<button type='submit' class='btn btn-danger btn-xs taskcontrols' form='deletereward{{reward.id}}'>Delete</button>
-					</td>
-				</tr>
-			{% endif %}
-		{% endfor %}
-		</table>
+	<div class="col-md-1">
+		<h2>Rewards:</h2>
+	</div>
+	<div class="col-md-1" style="text-align: right">
+		{% if form.title.errors or form.cost.errors %}
+		<h3 style="display: none"><a href="#" id="showaddform">[<span class="glyphicon glyphicon-plus">]</span></a></h3>
+		<h3 id="cancelbutton" style=""><a href="{{ url_for('rewards') }}" >[<span style="font-weight: bold; ">X</span>]</a></h3>
+		{% else %}
+		<h3><a href="#" id="showaddform">[<span class="glyphicon glyphicon-plus">]</span></a></h3>
+		<h3 id="cancelbutton" style="display: none"><a href="{{ url_for('rewards') }}" >[<span style="font-weight: bold; ">X</span>]</a></h3>
+		{% endif %}
+	</div>
+	<div class="col-md-10" style="text-align: right">	
+		<h2><a href="{{ url_for('redeemed') }}">Redeemed Rewards<span class="glyphicon glyphicon-share-alt"></span></a></h2>
+	</div>
+	<div class="col-md-12">
+		{% if form.title.errors or form.cost.errors %}
+		<h4 style="text-align: right; color: #006666">
+			{% for error in form.title.errors %}
+			{{ error }}.&nbsp 
+			{% endfor %}
+			{% for error in form.cost.errors %}
+			{{ error }}.&nbsp
+			{% endfor %}
+		</h4>
+		{% endif %}
 	</div>
 </div>
 
-{% if redeemed|length > 0 %}
-<div class="row">
-	<div class="col-md-12 col-sm-12 col xs-12">
-		<h2>Redeemed Rewards:</h2>
-		<table class="rewardlist">
-			<tr class="rlheaders">
-				<td>Title</td>
-				<td>Description</td>
-				<td>Cost</td>
-				<td>Date Added</td>
-			</tr>
-		{% for reward in redeemed %}
-			<tr>
-				<td>{{ reward.title }}</td>
-				<td>{{ reward.body|safe }}</td>
-				<td>{{ reward.cost }}</td>
-				<td>{{ reward.dateadded.strftime('%b, %d, %Y') }}</td>
-				<td class="colcontrols"></td>
-				<td class="colcontrols">
-					<form method='post' action='/deletereward' id='deletereward{{reward.id}}'></form>
-						<input type='hidden' name='deleterewardid' value='{{ reward.id }}' form='deletereward{{reward.id}}'>
-						<button type='submit' class='btn btn-danger btn-xs taskcontrols' form='deletereward{{reward.id}}'>Delete</button>
-				</td>
-			</tr>
-		{% endfor %}
-		</table>
-	</div>
-</div>
+{% if form.title.errors or form.cost.errors %}
+<form role="form" id="addreward" method="POST" action="{{ url_for('rewards') }}">
+{% else %}
+<form role="form" id="addreward" method="POST" action="{{ url_for('rewards') }}" style="display: none">
 {% endif %}
-<!-- Add form -->
-<div class="row" style="margin-top:20px">
-	<div class ="col-md-8 col-sm-8 col-xs-8">
-		<div id="addform" style="display:none;">
-			<h3>Add a New Reward</h3>
-			<form id="addreward" method="post" action="/rewards">
-				<h3>Title:</h3>
-				<textarea rows="1" cols="50" name="title" form="addreward" placeholder="Title" maxlength="75" required></textarea>
-				<h3>Description:</h3>
-				<textarea rows="5" cols="50" name="body" form="addreward" placeholder="Describe your reward!" maxlength="300"></textarea>
-				<h3>Cost:</h3>
-				<input type="number" name="cost" form="addreward" placeholder="1" maxlength="3" id="cost"><br/>
-			</form>
+	{{ form.csrf_token }}
+	<div class="col-md-9 col-sm-9 col-xs-9">
+		{{ form.title(placeholder="Enter a reward here!", class="form-control rewardaddtitle") }}
+	</div>
+	<div class="col-md-2 col-sm-2 col-xs-2">
+		{{ form.cost(placeholder="0-1000", class="form-control rewardaddcost") }}
+	</div>
+	<div class="col-md-1 col-sm-1 col-xs-1">
+		<button type="submit" form="addreward" id="submitbutton" class="btn btn-default rewardaddbtn"><span class="glyphicon glyphicon-pencil"></span></button>
+	</div>
+</form>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="listheader">
+			<div class="row">
+				<div class="col-md-7 col-sm-4 col-xs-4">
+					<h4 style="margin-left: 10px;">Reward</h4>
+				</div>
+				<div class="col-md-2 col-sm-4 col-xs-4">
+					<h4>Date Added</h4>
+				</div>
+				<div class="col-md-1 col-sm-2 col-xs-2">
+					<h4 style="text-align: right;">Cost</h4>
+				</div>
+				<div class="col-md-1 col-sm-1 col-xs-1">
+					<h4 style="text-align: center;">Redeem</h4>
+				</div>
+				<div class="col-md-1 col-sm-1 col-xs-1">
+					<h4 style="text-align: center;">Remove</h4>
+				</div>
+			</div>
 		</div>
-		<div class="submitbutton">
-			<button type="submit" class="btn btn-default btn-sm" form="addreward" id="submitbutton" style="display: none; margin-right: 5px;">Submit</button>
-			<button type="button" class="btn btn-default btn-sm" id="cancelbutton" style="display:none">Cancel</button>
+	{% for reward in rewards %}
+	{% if reward.cost <= points %}
+		<div class="rewarditem">
+			<div class="row">
+				<div class="col-md-7 col-sm-4 col-xs-4">
+					<h3 style="margin-left: 10px">{{ reward.title }}</h3>
+				</div>
+				<div class="col-md-2 col-sm-4 col-xs-4">
+					<h3>{{ reward.dateadded.strftime('%b. %d, %Y') }}</h3>
+				</div>
+				<div class="col-md-1 col-sm-2 col-xs-2">
+					<h1 style="font-size: 2.5em; color: #006666; text-align: right;">{{ reward.cost }}</h1>
+				</div>
+				
+
+				<div class="col-md-1 col-sm-1 col-xs-1 rewardcontrols" style="text-align: center">
+					<form method="POST" action="/redeem" id="compreward{{ reward.id }}">
+						{{ idform.csrf_token }} 
+						{{ idform.rewardid(value=reward.id, id="compreward"~reward.id, form="compreward"~reward.id) }}
+					</form>
+					<h3><button type="submit" class="btn btn-default btn-sm" form="compreward{{ reward.id }}">[<span class="glyphicon glyphicon-ok"></span>]</button></h3>
+				</div>
+				
+
+				<div class="col-md-1 col-sm-1 col-xs-1 rewardcontrols">
+					<form method="POST" action="/deletereward" id="delreward{{ reward.id }}">
+						{{ idform.csrf_token }}
+						{{ idform.rewardid(value=reward.id, id="delreward"~reward.id, form="delreward"~reward.id) }}
+					</form>
+					
+					<h3 style="text-align:center"><button type="submit" class="btn btn-default btm-sm" form="delreward{{ reward.id }}">[<span class="glyphicon glyphicon-minus"></span>]</button></h3>
+				</div>
+
+			</div>
 		</div>
+	{% endif %}
+	{% endfor %}
+	
+	{% for reward in rewards %}
+	{% if reward.cost > points %}
+		<div class="rewarditem unavailable">
+			<div class="row">
+				<div class="col-md-7 col-sm-4 col-xs-4">
+					<h3 style="margin-left: 10px">{{ reward.title }}</h3>
+				</div>
+				<div class="col-md-2 col-sm-4 col-xs-4">
+					<h3>{{ reward.dateadded.strftime('%b. %d, %Y') }}</h3>
+				</div>
+				<div class="col-md-1 col-sm-2 col-xs-2">
+					<h1 style="font-size: 2.5em; color: #006666; text-align: right;">{{ reward.cost }}</h1>
+				</div>
+
+				<div class="col-md-1 col-sm-1 col-xs-1 rewardcontrols" style="text-align: center"></div>
+
+				<div class="col-md-1 col-sm-1 col-xs-1 rewardcontrols">
+					<form method="POST" action="/deletereward" id="delreward{{ reward.id }}">
+						{{ idform.csrf_token }}
+						{{ idform.rewardid(value=reward.id, id="delreward"~reward.id, form="delreward"~reward.id) }}
+					</form>
+					
+					<h3 style="text-align:center"><button type="submit" class="btn btn-default btm-sm" form="delreward{{ reward.id }}">[<span class="glyphicon glyphicon-minus"></span>]</button></h3>
+				</div>
+
+			</div>
+		</div>
+	{% endif %}
+	{% endfor %}
+
 	</div>
 </div>
 
 {% endblock %}
+

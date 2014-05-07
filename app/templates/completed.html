@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="row">
+	<div class="col-md-6">			
+		<h2>Completed Tasks:</h2>
+	</div>
+	<div class="col-md-6" style="text-align: right">	
+		<h2 style="text-align: right"><a href="{{ url_for('tasks') }}">Tasks<span class="glyphicon glyphicon-share-alt"></span></a></h2>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="listheader">
+			<div class="row">
+				<div class="col-md-8 col-sm-5 col-xs-5">
+					<h4 style="margin-left: 10px;">Task</h4>
+				</div>
+				<div class="col-md-2 col-sm-4 col-xs-4">
+					<h4>Date Completed</h4>
+				</div>
+				<div class="col-md-1 col-sm-2 col-xs-2">
+					<h4 style="text-align: right;">Value</h4>
+				</div>
+				<div class="col-md-1 col-sm-1 col-xs-1">
+					<h4 style="text-align: center;">Remove</h4>
+				</div>
+			</div>
+		</div>
+	{% for task in comptasks %}
+		<div class="listitem">
+			<div class="row">
+				<div class="col-md-8 col-sm-5 col-xs-5">
+					<h3 style="margin-left: 10px">{{ task.title }}</h3>
+				</div>
+				<div class="col-md-2 col-sm-4 col-xs-4">
+					{% if task.datecomplete != None %}
+					<h3>{{ task.datecomplete.strftime('%b. %d, %Y') }}</h3>
+					{% endif %}
+				</div>
+				<div class="col-md-1 col-sm-2 col-xs-2">
+					<h1 style="font-size: 2.5em; color: #f8d547; text-align: right;">{{ task.value }}</h1>
+				</div>
+				<div class="col-md-1 col-sm-1 col-xs-1 listcontrols">
+					<form method="POST" action="/deletetask" id="deltask{{ task.id }}">
+						{{ idform.csrf_token }}
+						{{ idform.taskid(value=task.id, id="deltask"~task.id, form="deltask"~task.id) }}
+						{{ idform.referpage(value="completed", form="deltask"~task.id) }}
+						<!-- <input type="hidden" name="deltaskid" value="{{ task.id }}" form="deltask{{ task.id }}"> -->
+					</form>
+					
+					<h3 style="text-align:center"><button type="submit" class="btn btn-default btm-sm" form="deltask{{ task.id }}">[<span class="glyphicon glyphicon-minus"></span>]</button></h4>
+				</div>
+
+			</div>
+		</div>
+	{% endfor %}
+	</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="row">
+	<div class="col-md-6">			
+		<h2>Redeemed Rewards:</h2>
+	</div>
+	<div class="col-md-6" style="text-align: right">	
+		<h2 style="text-align: right"><a href="{{ url_for('rewards') }}">Rewards<span class="glyphicon glyphicon-share-alt"></span></a></h2>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="listheader">
+			<div class="row">
+				<div class="col-md-8 col-sm-5 col-xs-5">
+					<h4 style="margin-left: 10px;">Reward</h4>
+				</div>
+				<div class="col-md-2 col-sm-4 col-xs-4">
+					<h4>Date Redeemed</h4>
+				</div>
+				<div class="col-md-1 col-sm-2 col-xs-2">
+					<h4 style="text-align: right;">Cost</h4>
+				</div>
+				<div class="col-md-1 col-sm-1 col-xs-1">
+					<h4 style="text-align: center;">Remove</h4>
+				</div>
+			</div>
+		</div>
+	{% for reward in redeemed %}
+		<div class="rewarditem">
+			<div class="row">
+				<div class="col-md-8 col-sm-5 col-xs-5">
+					<h3 style="margin-left: 10px">{{ reward.title }}</h3>
+				</div>
+				<div class="col-md-2 col-sm-4 col-xs-4">
+					{% if reward.dateredeemed != None %}
+					<h3>{{ reward.dateredeemed.strftime('%b. %d, %Y') }}</h3>
+					{% endif %}
+					
+				</div>
+				<div class="col-md-1 col-sm-2 col-xs-2">
+					<h1 style="font-size: 2.5em; color: #006666; text-align: right;">{{ reward.cost }}</h1>
+				</div>
+				<div class="col-md-1 col-sm-1 col-xs-1 rewardcontrols">
+					<form method="POST" action="/deletereward" id="delreward{{ reward.id }}">
+						{{ idform.csrf_token }}
+						{{ idform.rewardid(value=reward.id, id="delreward"~reward.id, form="delreward"~reward.id) }}
+						{{ idform.referpage(value="redeemed", form="delreward"~reward.id) }}
+					</form>
+					
+					<h3 style="text-align:center"><button type="submit" class="btn btn-default btm-sm" form="delreward{{ reward.id }}">[<span class="glyphicon glyphicon-minus"></span>]</button></h4>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+	</div>
+</div>
+
+{% endblock %}

@@ -1,15 +1,89 @@
-{% extends "layout.html" %}
-{% block content %}
-	<div class="row">
-		<div class="col-md-6 col-xs-6 col-sm-6">
-			Column 1 
-		<	<h2>Welcome to List and Reward{% if username %}, {{ username }}{% endif %}.</h2>
+<!DOCTYPE html>
+<html style="height: 100%">
+	<head>
+		<title>List and Reward</title>
+		<!-- bootstrap for later use -->
+		<meta charset="utf-8">
+	<!-- 	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css')}}"> -->
+		<link rel="stylesheet" media="screen" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
+		<!-- inclue own CSS AFTER bootstrap to add overrides -->
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+	</head>
+
+	<body class="{{ containerclass }}">
+		<div style="position:fixed; height: 100%; width: 100%; top: 0%; left:0%;">
+			<div style="height: 20%">
+			</div>
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div style="text-align: center"> 
+					<span style="font-size: 10em">list & reward</span><br/>
+					<span style="font-size: 1.5em">the <span style="color: #006666">minimal</span> and <span style="color: #f8d547">motivational</span> task list</span>
+				</div>
+				<div style="text-align: center">
+					<span style="font-size: 2em"><a href="#" id="loginclick">sign in</a> <span style="font-size: .7em">or</span> <a href="#" id="regclick">register</a></span>
+				</div>
+			</div>
+
+			<div class="col-md-12 col-sm-12 col-xs-12">
+			<!-- Login/Registration Forms -->
+				<div class="col-md-5 col-sm-2 col-xs-2"></div>
+				<div class="col-md-2 col-sm-8 col-xs-8 loginform">
+				
+				 	<form id="loginform" role="form" action="{{url_for('login')}}" method="POST";>
+				 		<h2>Sign In </h2>
+				 		{{ loginform.csrf_token }}
+				 		<p>{{ loginform.username.label }}</p>
+				 		<p class="logininput">{{ loginform.username(placeholder="Username") }}</p>
+				 		<p>{{ loginform.password.label }}</p>
+				 		<p class="logininput">{{ loginform.password(placeholder="Password") }}</p>
+				 		<p>
+				 		{% for error in loginform.username.errors %}
+				 		{{ error }}
+				 		{% endfor %}
+				 		{% for error in loginform.password.errors %}
+				 		{{ error }}
+				 		{% endfor %}
+				 		</p>
+				 		<button type="submit" form="loginform" class='btn btn-default'>Submit</button>
+					</form>
+
+					<form id="regform" role="form" action="{{url_for('register')}}" method="POST" style="display: none">
+				 		<h2>Register</h2>
+				 		{{ regform.csrf_token }}
+				 		<p>{{ regform.username.label }}</p>
+				 		<p class="logininput">{{ regform.username(placeholder="Username") }}</p>
+				 		<p>{{ regform.password.label }}</p>
+				 		<p class="logininput">{{ regform.password(placeholder="Password") }}</p>
+				 		<p>{{ regform.verify.label }}</p>
+				 		<p class="logininput">{{ regform.verify(placeholder="Confirm Password") }}</p>
+				 		<p>
+			 			{% for error in regform.username.errors %}
+						{{ error }}
+						{% endfor %}
+						{% for error in regform.password.errors %}
+						{{ error }}
+						{% endfor %}
+				 		<button type="submit" form="regform" class='btn btn-default'>Submit</button>
+					</form>
+				</div>
+
+
+ 			<div class="col-md-5 col-sm-2 col-xs-2"></div>
+			</div>
+			
+
+<!-- 			<div class="col-md-6 col-sm-6 col-xs-6 text-center">
+				<p>Complete your tasks...</p>
+			</div>
+			<div class="col md-6 col-sm-6 col-xs-6 text-center">
+				<p>then treat yourself!</p>
+			</div> -->
+
+
 		</div>
-		<div class="col-md-6 col-xs-6 col-sm-6">
-			Column 2 
-			<h3>This is the splash page for List and Reward</h3>
-		</div>	
-	</div>
-	
-	
-{% endblock %}
+	</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+<script src="{{ url_for('static', filename='js/functions.js') }}"></script>
+

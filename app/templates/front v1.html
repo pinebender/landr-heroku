@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+	<head>
+		<title>List and Reward</title>
+		<!-- bootstrap for later use -->
+		<meta charset="utf-8">
+	<!-- 	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css')}}"> -->
+		<link rel="stylesheet" media="screen" href="{{ url_for('static', filename='css/bootstrap-min.css')}}">
+		<!-- inclue own CSS AFTER bootstrap to add overrides -->
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+	</head>
+
+	<body class="{{ containerclass }}">
+		<div style="position:fixed; height: 100%; width: 100%; top: 0%; left:0%">
+			<div id="tophalf" style="position: fixed; background-color: #006666; height: 50%; width: 100%; top: 0%; left: 0%"></div>
+			<div id="bottomhalf" style="position: fixed; background-color: #f8d547; height: 50%; width: 100%; top: 50%; left: 0%"></div>
+		</div>
+
+		<div style="position: fixed; top: 10%; left: 10%; font-size: 10em;"> list </div>
+		<div style="position: fixed; top: 30%; left: 10%; font-size: 12em;"> & </div>
+		<div style="position: fixed; top: 50%; left: 10%; font-size: 10em;"> reward </div>
+
+		<div style="position: fixed; top: 50%; left: 40%; font-size: 3em;"><a href="{{ url_for('login') }}">sign in</a></div>
+
+	</body>
+</html>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+<script src="{{ url_for('static', filename='js/functions.js') }}"></script>
+

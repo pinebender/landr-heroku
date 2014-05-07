@@ -1,28 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
 
-	<div class="row">
-		<div class="col-md-8 col-xs-8 col-sm-8">
-		<!-- change this to important tasks; allow tasks to be marked important -->
-		<h2>Recent Tasks:</h2>
-			<table class="tasklist">
-				<tr>
-					<td style="width:80%">Title</td>
-					<td style="width:20%">Date Added</td>
-			{% for task in tasks[0:6] %}
-				<tr>
-					<td style="width:80%"><h3>{{ task.title }}</h3></td>
-					<!-- <td>{{task.body}}</td> -->
-					<td style="width:20%"><h4>{{task.dateadded.strftime('%b %d, %Y')}}</h4></td>
-				</tr>
-			{% endfor %}
-			</table>
-		</div>
+<h1 style="text-align: center; vertical-align: center">Home Page! TBD</h1>
 
-		<div class="col-md-4 col-xs-4 col-sm-4 featuredreward">
-			<h3>Featured Reward</h3>
-		</div>
-	</div>
-
-	<!-- add link to add new task (also on task page) -->
 {% endblock %}

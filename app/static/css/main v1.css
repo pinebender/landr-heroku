@@ -1,0 +1,198 @@
+@import url("bootstrap.css");
+
+
+
+
+html, body {
+	color: #356857;
+	background-color: #fff;
+	height:100%;
+}
+
+a {
+	color:#5f8946;
+}
+
+a:hover {
+	color:#a3c48f
+}
+
+.title {
+	padding-top: 10px;
+	padding-bottom: 5px;
+	/*text-align:center;*/
+	word-spacing: 10px;
+	letter-spacing:3px;
+}
+
+.maincontainer {
+	position: relative;
+	border: 0px solid #ccc;
+	background-color: #fff;
+	height:100%;
+	min-height: 100%;
+
+}
+
+.fill {
+	min-height:100%;
+}
+
+.header {
+    background-color:#365857;
+    color: #fff;
+    text-align: left;
+    border: 10px solid #365857;
+    border-radius: 0px;   
+}
+
+.header .navbar-default{
+    border: none;
+    border-top:1px solid #fff;
+    border-radius:0px;    
+}
+
+
+.navbar-default .navbar-nav {
+	/*padding-bottom:10px;*/
+}
+
+.navbar-default .navbar-nav > li > a {
+	
+	color: #FFF;
+
+}
+
+.navbar-default .navbar-nav > li > a:active {
+	color: #EEE;
+}
+
+.navbar {
+	background-color: #365857;
+	border-bottom: 1px solid #eee;
+	font-size: 1.5em;
+	margin-bottom: 0px;
+}
+
+
+.navbar-right a {
+	margin-right: 15px;
+}
+
+.navlinks {
+	/*border: 1px solid #15a01b;*/
+}
+
+
+.btn {
+	/*border-radius: 0px;
+	border-color: #fff*/
+	border:none;
+}
+
+.btn-default {
+	background-color: #ffd119;
+	color: #fff;	
+}
+
+.btn-default:hover {
+	background-color:#ffe57b;
+	color: #fff;
+	border-color: #fff;
+}
+
+.btn-danger {
+	background-color: #d2332f;
+}
+
+.btn-danger:hover {
+	background-color: #D9534F;
+	border-color: #fff;
+}
+
+.smaller{
+	font-size: 75%;
+}
+
+.topcell {
+	text-align: center;
+	margin-right: 5px;
+	margin-left: 5px;
+	border-bottom: 8px solid #ddd;
+	margin-top:0px;
+	background-color: #fff;
+
+}
+
+
+.tasklist {
+	width:100%;
+}
+
+.tasklist td{
+	border-bottom: 0px solid #ddd;
+	padding: 0px;
+	font-size: 1.2em;
+}
+
+.tasklist tr:nth-child(even){
+	background-color: #EFEFEF;
+}
+
+.tlheaders {
+	font-weight: bold;
+}
+
+.rewardlist {
+	width:100%;
+}
+
+.rewardlist td{
+	border-bottom: 0px solid #ddd;
+	padding: 0px;
+}
+
+.rewardlist tr:nth-child(even){
+	background-color: #f1f1f1;
+}
+
+.rlheaders {
+	font-weight: bold;
+}
+
+.unavailable {
+	color: #85a49a;
+}
+
+.featuredreward {
+	text-align:center;
+
+}
+
+.submitbuttons {
+	margin-top:10px;
+}
+
+.taskcontrols {
+	margin-top: 2px;
+	margin-bottom: 2px;
+	margin-right: 2px;
+	margin-left: 2px;
+}
+
+.colcontrols {
+	width: 15px;
+}
+
+.addform {
+	color: #fff;
+	background-color: #365857;
+	padding:10px;
+	border-radius: 10px;
+
+}
+
+.addform textarea{
+	margin-right: 2px;
+	margin-left: 2px;
+}

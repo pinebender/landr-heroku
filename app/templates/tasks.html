@@ -2,91 +2,111 @@
 {% block content %}
 
 <div class="row">
-	<div class="col-md-12 col-xs-12 col-sm-12">
-		<h2>Task List: <button type="button" class="btn btn-default btn-sm" id="showaddform">Add Task</button></h2>
-		<table class="tasklist">
-			<tr class="tlheaders">
-				<!-- <td>#</td> -->
-				<td>Title</td>
-				<td>Description</td>
-				<td>Point Value</td>
-				<td>Date Added</td>
-			</tr>
-		{% for task in tasks %}
- 			<tr>
-				<!-- edit styling to space rows properly -->
-				<!-- <td>{{ loop.index }}</td> --> <!-- numbering; uses loop index, starting at 1 -->
-				<td>{{ task.title }}</td>
-				<td>{{ task.body|safe }}</td> <!-- Test this out as |safe; allows html to render -->
-				<td>{{ task.value }}</td>
-				<td>{{ task.dateadded.strftime('%b, %d, %Y') }}</td>
-				<td class="colcontrols">
-					<form method='post' action='/completetask' id="comptask{{task.id}}"></form>
-						<input type='hidden' name='comptaskid' value="{{ task.id }}" form="comptask{{task.id}}">
-						<button type="submit" class = "btn btn-default btn-xs taskcontrols" form="comptask{{task.id}}">Complete</button>
-				</td>
-				<td class="colcontrols">
-					<form method='post' action='/deletetask' id="deltask{{task.id}}"></form>
-						<input type="hidden" name="deltaskid" value="{{ task.id }}" form="deltask{{task.id}}">
-						<button type="submit" class="btn btn-danger btn-xs taskcontrols" form="deltask{{task.id}}">Delete</button>
-				</td>
-			</tr>
-		{% endfor %}
-		</table>		
+	<div class="col-md-1">
+		<h2>Tasks:</h2>
+	</div>
+	<div class="col-md-1">
+		{% if form.title.errors or form.value.errors %}
+		<h3 style="display: none"><a href="#" id="showaddform">[<span class="glyphicon glyphicon-plus">]</span></a></h3>
+		<h3 id="cancelbutton" style=""><a href="{{ url_for('tasks') }}" >[<span style="font-weight: bold; ">X</span>]</a></h3>
+		{% else %}
+		<h3><a href="#" id="showaddform">[<span class="glyphicon glyphicon-plus">]</span></a></h3>
+		<h3 id="cancelbutton" style="display: none"><a href="{{ url_for('tasks') }}" >[<span style="font-weight: bold; ">X</span>]</a></h3>
+		{% endif %}
+	</div>
+	<div class="col-md-10" style="text-align: right">	
+		<h2><a href="{{ url_for('completed') }}">Completed Tasks<span class="glyphicon glyphicon-share-alt"></span></a></h2>
+	</div>
+	<div class="col-md-12">
+		{% if form.title.errors or form.value.errors %}
+		<h4 style="text-align: right; color: #f8d547">
+			{% for error in form.title.errors %}
+			{{ error }}.&nbsp 
+			{% endfor %}
+			{% for error in form.value.errors %}
+			{{ error }}.&nbsp
+			{% endfor %}
+		</h4>
+		{% endif %}
 	</div>
 </div>
 
-{% if comptasks|length > 0 %}
-<div class="row" style="margin-top: 20px;">
-	<div class="col-md-12 col-xs-12 col-sm-12">
-		<h2>Completed Tasks:</h2>
-		<table class="tasklist">
-			<tr class="tlheaders">
-				<!-- <td>#</td> -->
-				<td>Title</td>
-				<td>Description</td>
-				<td>Point Value</td>
-				<td>Date Added</td>
-			</tr>
-		{% for task in comptasks %}
-			<tr> 
-				<!-- edit styling to space rows properly -->
-				<!-- <td>{{ loop.index }}</td> --> <!-- numbering; uses loop index, starting at 1 -->
-				<td>{{ task.title }}</td>
-				<td>{{ task.body|safe }}</td> <!-- Test this out as |safe; allows html to render -->
-				<td>{{ task.value }}</td>
-				<td>{{ task.dateadded.strftime('%b %d, %Y') }}</td>
-				<td class="colcontrols"></td>
-				<td class="colcontrols">
-					<form method='post' action='/deletetask' id="deltask{{task.id}}"></form>
-						<input type="hidden" name="deltaskid" value="{{ task.id }}" form="deltask{{task.id}}">
-						<button type="submit" class="btn btn-danger btn-xs taskcontrols" form="deltask{{task.id}}">Delete</button>	
-				</td>
-			</tr>
-		{% endfor %}
-		</table>		
-	</div>
-</div>
+{% if form.title.errors or form.value.errors %}
+<form role="form" id="addtask" method="POST" action="{{ url_for('tasks') }}">
+{% else %}
+<form role="form" id="addtask" method="POST" action="{{ url_for('tasks') }}" style="display: none">
 {% endif %}
+	{{ form.csrf_token }}
+	<div class="col-md-9 col-sm-9 col-xs-9">
+		{{ form.title(placeholder="Enter a task!", rows="2", class="form-control listaddtitle") }}
+	</div>
+	<div class="col-md-2 col-sm-2 col-xs-2">
+		{{ form.value(placeholder="0-1000", class="form-control listaddvalue") }}
+	</div>
+	<div class="col-md-1 col-sm-1 col-xs-1">
+		<button type="submit" form="addtask" id="submitbutton" class="btn btn-default listaddbtn"><span class="glyphicon glyphicon-pencil"></span></button>
+	</div>
+</form>
 
-<div class="row" style="margin-top: 20px;">
-	<div class="col-md-8 col-xs-8 col-sm-8">
-		<div id="addform" style="display: none;">
-			<h3>Add a New Task</h3>
-			<form id='addtask' method='post' action='/tasks'>
-				<h3>Title:</h3>
-				<textarea rows="1" cols="50" name="title" form="addtask" placeholder="Title" maxlength="75" required></textarea>
-				<h3>Description:</h3>
-				<textarea rows="5" cols="50" name="body" form="addtask" placeholder="Describe your task!" maxlength="300"></textarea>
-				<h3>Point Value:</h3>
-				<input type="number" name="value" form="addtask" value="1" maxlength="3" id="value"><br/>						
-			</form>
+<div class="row">
+	<div class="col-md-12">
+		<div class="listheader">
+			<div class="row">
+				<div class="col-md-7 col-sm-4 col-xs-4">
+					<h4 style="margin-left: 10px;">Task</h4>
+				</div>
+				<div class="col-md-2 col-sm-4 col-xs-4">
+					<h4>Date Added</h4>
+				</div>
+				<div class="col-md-1 col-sm-2 col-xs-2">
+					<h4 style="text-align: right;">Value</h4>
+				</div>
+				<div class="col-md-1 col-sm-1 col-xs-1">
+					<h4 style="text-align: center;">Complete</h4>
+				</div>
+				<div class="col-md-1 col-sm-1 col-xs-1">
+					<h4 style="text-align: center;">Remove</h4>
+				</div>
+			</div>
 		</div>
-		<div class="submitbuttons">
-			<button type="submit" class="btn btn-default btn-sm" form="addtask" id="submitbutton" style="display: none; margin-right: 5px">Submit</button>
-			<button type="button" class="btn btn-default btn-sm" id="cancelbutton" style="display: none">Cancel</button>
+	{% for task in tasks %}
+		<div class="listitem">
+			<div class="row">
+				<div class="col-md-7 col-sm-4 col-xs-4">
+					<h3 style="margin-left: 10px">{{ task.title }}</h3>
+				</div>
+				<div class="col-md-2 col-sm-4 col-xs-4">
+					<h3>{{ task.dateadded.strftime('%b. %d, %Y') }}</h3>
+				</div>
+				<div class="col-md-1 col-sm-2 col-xs-2">
+					<h1 style="font-size: 2.5em; color: #f8d547; text-align: right;">{{ task.value }}</h1>
+				</div>
+				
+
+				<div class="col-md-1 col-sm-1 col-xs-1 listcontrols" style="text-align: center">
+					<form method="POST" action="/completetask" id="comptask{{ task.id }}">
+						{{ idform.csrf_token }} 
+						{{ idform.taskid(value=task.id, id="comptask"~task.id, form="comptask"~task.id) }}
+					</form>
+					<h3><button type="submit" class="btn btn-default btn-sm" form="comptask{{ task.id }}">[<span class="glyphicon glyphicon-ok"></span>]</button></h3>
+				</div>
+				
+
+				<div class="col-md-1 col-sm-1 col-xs-1 listcontrols">
+					<form method="POST" action="/deletetask" id="deltask{{ task.id }}">
+						{{ idform.csrf_token }}
+						{{ idform.taskid(value=task.id, id="deltask"~task.id, form="deltask"~task.id) }}
+						<!-- <input type="hidden" name="deltaskid" value="{{ task.id }}" form="deltask{{ task.id }}"> -->
+					</form>
+					
+					<h3 style="text-align:center"><button type="submit" class="btn btn-default btm-sm" form="deltask{{ task.id }}">[<span class="glyphicon glyphicon-minus"></span>]</button></h3>
+				</div>
+
+			</div>
 		</div>
-	</div>			
+	{% endfor %}
+
+	</div>
 </div>
 
 {% endblock %}
