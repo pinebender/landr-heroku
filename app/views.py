@@ -227,13 +227,13 @@ def register():
 				if usernm.lower() == userquery.username:
 					#flash("Username is already in use. Please choose another.")
 					form.username.errors.append("Username is already in use. Please choose another.")
-					return render_template('register.html', regform=form, loginform=LoginForm(), containerclass="frontcontainer")
+					return render_template('front.html', regform=form, loginform=LoginForm(), containerclass="frontcontainer")
 			
 			# if query does not return a name, check if form passwords match
 			elif pw != verify:
 				#flash("Password doesn't match verification. Please try again.")
 				form.password.errors.append("Password doesn't match verification. Please try again.")
-				return render_template('register.html', regform=form, loginform=LoginForm(), containerclass="frontcontainer")
+				return render_template('front.html', regform=form, loginform=LoginForm(), containerclass="frontcontainer")
 			
 			# if passwords match, hash the password and store the user in database, username in lowercase
 			elif pw == verify:
@@ -253,8 +253,8 @@ def register():
 				return redirect(url_for('tasks'))
 
 		else:
-			return render_template('register.html', regform=form, loginform=LoginForm(), containerclass="frontcontainer")
+			return render_template('front.html', regform=form, loginform=LoginForm(), containerclass="frontcontainer")
 		
 	# form view when no POST data
 	else:
-		return render_template('register.html', loginform=LoginForm(), regform=RegistrationForm(), containerclass="frontcontainer")
+		return render_template('front.html', loginform=LoginForm(), regform=RegistrationForm(), containerclass="frontcontainer")
