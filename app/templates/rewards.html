@@ -7,11 +7,11 @@
 	</div>
 	<div class="col-md-1" style="text-align: right">
 		{% if form.title.errors or form.cost.errors %}
-		<h3 style="display: none"><a href="#" id="showaddform">[<span class="glyphicon glyphicon-plus">]</span></a></h3>
-		<h3 id="cancelbutton" style=""><a href="{{ url_for('rewards') }}" >[<span style="font-weight: bold; ">X</span>]</a></h3>
+		<h3 style="display: none"><a href="#" id="showaddform" title="Add a Reward">[<span class="glyphicon glyphicon-plus">]</span></a></h3>
+		<h3 id="cancelbutton" style="" title="Cancel"><a href="{{ url_for('rewards') }}" >[<span class="glyphicon glyphicon-remove"></span>]</a></h3>
 		{% else %}
-		<h3><a href="#" id="showaddform">[<span class="glyphicon glyphicon-plus">]</span></a></h3>
-		<h3 id="cancelbutton" style="display: none"><a href="{{ url_for('rewards') }}" >[<span style="font-weight: bold; ">X</span>]</a></h3>
+		<h3><a href="#" id="showaddform" title="Add a Reward">[<span class="glyphicon glyphicon-plus">]</span></a></h3>
+		<h3 id="cancelbutton" style="display: none"><a href="{{ url_for('rewards') }}" title="Cancel" >[<span class="glyphicon glyphicon-remove"></span>]</a></h3>
 		{% endif %}
 	</div>
 	<div class="col-md-10" style="text-align: right">	
@@ -61,49 +61,75 @@
 				<div class="col-md-1 col-sm-2 col-xs-2">
 					<h4 style="text-align: right;">Cost</h4>
 				</div>
-				<div class="col-md-1 col-sm-1 col-xs-1">
-					<h4 style="text-align: center;">Redeem</h4>
+				<div class="col-md-2 col-sm-2 col-xs-2">
+					<h4 style="text-align: center;"></h4>
 				</div>
-				<div class="col-md-1 col-sm-1 col-xs-1">
-					<h4 style="text-align: center;">Remove</h4>
-				</div>
+
 			</div>
 		</div>
 	{% for reward in rewards %}
 	{% if reward.cost <= points %}
 		<div class="rewarditem">
 			<div class="row">
-				<div class="col-md-7 col-sm-4 col-xs-4">
-					<h3 style="margin-left: 10px">{{ reward.title }}</h3>
+				<div id="displayreward{{ reward.id }}">
+					<div class="col-md-7 col-sm-4 col-xs-4">
+						<h3 style="margin-left: 10px">{{ reward.title }}</h3>
+					</div>
+					<div class="col-md-2 col-sm-4 col-xs-4">
+						<h3>{{ reward.dateadded.strftime('%b. %d, %Y') }}</h3>
+					</div>
+					<div class="col-md-1 col-sm-2 col-xs-2">
+						<h1 style="font-size: 2.5em; color: #006666; text-align: right;">{{ reward.cost }}</h1>
+					</div>
 				</div>
-				<div class="col-md-2 col-sm-4 col-xs-4">
-					<h3>{{ reward.dateadded.strftime('%b. %d, %Y') }}</h3>
-				</div>
-				<div class="col-md-1 col-sm-2 col-xs-2">
-					<h1 style="font-size: 2.5em; color: #006666; text-align: right;">{{ reward.cost }}</h1>
-				</div>
-				
 
-				<div class="col-md-1 col-sm-1 col-xs-1 rewardcontrols" style="text-align: center">
-					<form method="POST" action="/redeem" id="compreward{{ reward.id }}">
-						{{ idform.csrf_token }} 
-						{{ idform.rewardid(value=reward.id, id="compreward"~reward.id, form="compreward"~reward.id) }}
+				<div id="rewardedit{{ reward.id }}" style="display: none">
+					<form id="updateform{{ reward.id }}" method="POST" action="/rewardupdate">
+						{{ updateform.csrf_token }}
+						{{ updateform.titletext(id="titletext"~reward.id, value=reward.title) }}
+						{{ updateform.rewardid(value=reward.id, form="updateform"~reward.id) }}
+						<div class="col-md-7 col-sm-4 col-xs-4">
+							<h3 style="margin-left: 10px">{{ updateform.title(id="updatetext"~reward.id, form="updateform"~reward.id, class="form-control rewardaddtitle", placeholder=reward.title) }}</h3>
+						</div>
+						<div class="col-md-2 col-sm-4 col-xs-4">
+							<h3>{{ reward.dateadded.strftime('%b. %d, %Y') }}</h3>
+						</div>
+						<div class="col-md-1 col-sm-2 col-xs-2">
+							<h1 style="font-size: 2.5em; color: #006666; text-align: right;">{{ updateform.cost(form="updateform"~reward.id, value=reward.cost, class="form-control costupdate") }}
+							</h1>
+						</div>
 					</form>
-					<h3><button type="submit" class="btn btn-default btn-sm" form="compreward{{ reward.id }}">[<span class="glyphicon glyphicon-ok"></span>]</button></h3>
 				</div>
-				
+				<div class="col-md-2 col-sm-2 col-xs-2">
+					<div class="row">
+						<div class="col-md-6 col-sm-6 col-xs-6 rewardcontrols" style="text-align: center">
+							<form method="POST" action="/redeem" id="compreward{{ reward.id }}">
+								{{ idform.csrf_token }} 
+								{{ idform.rewardid(value=reward.id, id="compreward"~reward.id, form="compreward"~reward.id) }}
+							</form>
+							<h4><button type="submit" title="Redeem Reward" class="btn btn-default btn-sm" form="compreward{{ reward.id }}">[<span class="glyphicon glyphicon-ok"></span>]</button></h4>
+						</div>
 
-				<div class="col-md-1 col-sm-1 col-xs-1 rewardcontrols">
-					<form method="POST" action="/deletereward" id="delreward{{ reward.id }}">
-						{{ idform.csrf_token }}
-						{{ idform.rewardid(value=reward.id, id="delreward"~reward.id, form="delreward"~reward.id) }}
-					</form>
-					
-					<h3 style="text-align:center"><button type="submit" class="btn btn-default btm-sm" form="delreward{{ reward.id }}">[<span class="glyphicon glyphicon-minus"></span>]</button></h3>
-				</div>
-
+						<div class="col-md-6 col-sm-6 col-xs-6 rewardcontrols" style="text-align: center">
+							<form method="POST" action="/deletereward" id="delreward{{ reward.id }}">
+								{{ idform.csrf_token }}
+								{{ idform.rewardid(value=reward.id, id="delreward"~reward.id, form="delreward"~reward.id) }}
+							</form>
+							<h4 style="text-align:center"><button type="submit" title="Remove Reward" class="btn btn-default btm-sm" form="delreward{{ reward.id }}">[<span class="glyphicon glyphicon-minus"></span>]</button></h4>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6 col-sm-6 col-xs-6 rewardcontrols" style="text-align: center; margin-top: -20px">
+							<h4><button id="editbutton{{ reward.id }}" title="Edit Reward" class="btn btn-default btn-sm editbutton" value="{{ reward.id }}">[<span class="glyphicon glyphicon-edit"></span>]</button></h4>
+							<h4><button type="submit" form="updateform{{ reward.id }}" id="saveedit{{ reward.id }}" title="Save Edit" class="btn btn-default btn-sm saveeditbtn" value="{{ reward.id }}" style="display:none">[<span class="glyphicon glyphicon-pencil"></span>]</button></h4>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-6 rewardcontrols" style="text-align:center; margin-top: -20px">
+						</div>
+					</div>
+				</div>					
 			</div>
 		</div>
+
 	{% endif %}
 	{% endfor %}
 	
@@ -111,25 +137,50 @@
 	{% if reward.cost > points %}
 		<div class="rewarditem unavailable">
 			<div class="row">
-				<div class="col-md-7 col-sm-4 col-xs-4">
-					<h3 style="margin-left: 10px">{{ reward.title }}</h3>
-				</div>
-				<div class="col-md-2 col-sm-4 col-xs-4">
-					<h3>{{ reward.dateadded.strftime('%b. %d, %Y') }}</h3>
-				</div>
-				<div class="col-md-1 col-sm-2 col-xs-2">
-					<h1 style="font-size: 2.5em; color: #006666; text-align: right;">{{ reward.cost }}</h1>
+				<div id="displayreward{{ reward.id }}">
+					<div class="col-md-7 col-sm-4 col-xs-4">
+						<h3 style="margin-left: 10px">{{ reward.title }}</h3>
+					</div>
+					<div class="col-md-2 col-sm-4 col-xs-4">
+						<h3>{{ reward.dateadded.strftime('%b. %d, %Y') }}</h3>
+					</div>
+					<div class="col-md-1 col-sm-2 col-xs-2">
+						<h1 style="font-size: 2.5em; color: #006666; text-align: right;">{{ reward.cost }}</h1>
+					</div>
 				</div>
 
-				<div class="col-md-1 col-sm-1 col-xs-1 rewardcontrols" style="text-align: center"></div>
-
-				<div class="col-md-1 col-sm-1 col-xs-1 rewardcontrols">
-					<form method="POST" action="/deletereward" id="delreward{{ reward.id }}">
-						{{ idform.csrf_token }}
-						{{ idform.rewardid(value=reward.id, id="delreward"~reward.id, form="delreward"~reward.id) }}
+				<div id="rewardedit{{ reward.id }}" style="display: none">
+					<form id="updateform{{ reward.id }}" method="POST" action="/rewardupdate">
+						{{ updateform.csrf_token }}
+						{{ updateform.titletext(id="titletext"~reward.id, value=reward.title) }}
+						{{ updateform.rewardid(value=reward.id, form="updateform"~reward.id) }}
+						<div class="col-md-7 col-sm-4 col-xs-4">
+							<h3 style="margin-left: 10px">{{ updateform.title(id="updatetext"~reward.id, form="updateform"~reward.id, class="form-control rewardaddtitle", placeholder=reward.title) }}</h3>
+						</div>
+						<div class="col-md-2 col-sm-4 col-xs-4">
+							<h3>{{ reward.dateadded.strftime('%b. %d, %Y') }}</h3>
+						</div>
+						<div class="col-md-1 col-sm-2 col-xs-2">
+							<h1 style="font-size: 2.5em; color: #006666; text-align: right;">{{ updateform.cost(form="updateform"~reward.id, value=reward.cost, class="form-control costupdate") }}
+							</h1>
+						</div>
 					</form>
-					
-					<h3 style="text-align:center"><button type="submit" class="btn btn-default btm-sm" form="delreward{{ reward.id }}">[<span class="glyphicon glyphicon-minus"></span>]</button></h3>
+				</div>
+
+				<div class="col-md-2 col-sm-2 col-xs-2">
+					<div class="row">
+						<div class="col-md-6 col-sm-6 col-xs-6 rewardcontrols" style="text-align: center;">
+							<h4><button id="editbutton{{ reward.id }}" title="Edit Reward" class="btn btn-default btn-sm editbutton" value="{{ reward.id }}">[<span class="glyphicon glyphicon-edit"></span>]</button></h4>
+							<h4><button type="submit" form="updateform{{ reward.id }}" id="saveedit{{ reward.id }}" title="Save Edit" class="btn btn-default btn-sm saveeditbtn" value="{{ reward.id }}" style="display:none">[<span class="glyphicon glyphicon-pencil"></span>]</button></h4>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-6 rewardcontrols" style="text-align: center">
+							<form method="POST" action="/deletereward" id="delreward{{ reward.id }}">
+								{{ idform.csrf_token }}
+								{{ idform.rewardid(value=reward.id, id="delreward"~reward.id, form="delreward"~reward.id) }}
+							</form>
+							<h4 style="text-align:center"><button type="submit" title="Remove Reward" class="btn btn-default btm-sm" form="delreward{{ reward.id }}">[<span class="glyphicon glyphicon-minus"></span>]</button></h4>
+						</div>
+					</div>
 				</div>
 
 			</div>

@@ -4,7 +4,7 @@ from app import app
 from models import User, Task, Reward, db
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import desc
-from forms import RegistrationForm, LoginForm, TaskForm, RewardForm, TaskIdForm, RewardIdForm
+from forms import RegistrationForm, LoginForm, TaskForm, RewardForm, TaskIdForm, RewardIdForm, TaskUpdateForm, RewardUpdateForm
 
 
 # TODO: turn this section into views.py
@@ -40,11 +40,11 @@ def tasks():
 				return redirect(url_for('tasks'))
 			else:
 				tasks = user.tasks.filter(Task.complete == False).order_by(desc(Task.dateadded)).all()	
-				return render_template('tasks.html', username=user.username, points=user.points, tasks=tasks, form=form, idform=TaskIdForm(), containerclass="listcontainer")
+				return render_template('tasks.html', username=user.username, points=user.points, tasks=tasks, form=form, idform=TaskIdForm(), updateform=TaskUpdateForm(), containerclass="listcontainer")
 
 		else:
 			tasks = user.tasks.filter(Task.complete == False).order_by(desc(Task.dateadded)).all()			
-			return render_template('tasks.html', username=user.username, points=user.points, tasks=tasks, form=TaskForm(), idform=TaskIdForm(), containerclass="listcontainer")
+			return render_template('tasks.html', username=user.username, points=user.points, tasks=tasks, form=TaskForm(), idform=TaskIdForm(), updateform=TaskUpdateForm(), containerclass="listcontainer")
 	# if no session, display default home page. TODO: convert to splash page
 	else:
 		return redirect(url_for('front'))
@@ -53,9 +53,32 @@ def tasks():
 def completed():
 	if 'userid' in session:	
 		user = User.query.get_or_404(session['userid'])	
-		comptasks = user.tasks.filter(Task.complete == True).order_by(desc(Task.dateadded)).all()			
+		comptasks = user.tasks.filter(Task.complete == True).order_by(desc(Task.datecomplete)).all()			
 		return render_template('completed.html', username=user.username, points=user.points, comptasks=comptasks, idform=TaskIdForm(), containerclass="listcontainer")
 	# if no session, display default home page. TODO: convert to splash page
+	else:
+		return redirect(url_for('front'))
+
+@app.route('/taskupdate', methods=['GET', 'POST']) # instead of using a separate page for task details, convert this into an update function
+def taskupdate():
+	if 'userid' in session:
+		user = User.query.get_or_404(session['userid'])
+		if request.method == 'POST':
+			updateform = TaskUpdateForm(request.form)
+			if updateform.validate():
+				task = Task.query.get_or_404(updateform.taskid.data)
+				if task.userid == user.id:
+					# update fields
+					task.title = updateform.title.data
+					task.value = updateform.value.data
+					#task.datedue = updateform.datedue.data
+					db.session.commit()
+				return redirect(url_for('tasks'))
+			else:
+				tasks = user.tasks.filter(Task.complete == False).order_by(desc(Task.dateadded)).all()
+				return render_template('tasks.html', username=user.username, points=user.points, tasks=tasks, form=TaskForm(), idform=TaskIdForm(), updateform=updateform, containerclass="listcontainer" )
+		else:
+			return redirect(url_for('tasks'))
 	else:
 		return redirect(url_for('front'))
 
@@ -71,10 +94,10 @@ def deltask():
 				if task.userid == user.id:
 					db.session.delete(task)
 					db.session.commit()
-				if form.referpage.data == "completed":
-					return redirect(url_for('completed'))
-				else:
-					return redirect(url_for('tasks'))
+			if form.referpage.data == "completed":
+				return redirect(url_for('completed'))
+			else:
+				return redirect(url_for('tasks'))
 		else:			
 			return redirect(url_for('tasks'))
 	else:
@@ -92,7 +115,7 @@ def completetask():
 				task.datecomplete = datetime.utcnow()
 				user.points += task.value
 				db.session.commit()
-				return redirect(url_for('tasks'))
+			return redirect(url_for('tasks'))
 		else:
 			return redirect(url_for('tasks'))
 	else:
@@ -114,11 +137,11 @@ def rewards():
 				return redirect(url_for('rewards'))
 			else:
 				rewards = user.rewards.filter(Reward.redeemed == False).order_by(desc(Reward.dateadded)).all()	
-				return render_template('rewards.html', username=user.username, points=user.points, rewards=rewards, form=form, idform=RewardIdForm(), containerclass="rewardcontainer")
+				return render_template('rewards.html', username=user.username, points=user.points, rewards=rewards, form=form, idform=RewardIdForm(), updateform=RewardUpdateForm(), containerclass="rewardcontainer")
 
 		else:
 			rewards = user.rewards.filter(Reward.redeemed == False).order_by(desc(Reward.dateadded)).all()			
-			return render_template('rewards.html', username=user.username, points=user.points, rewards=rewards, form=RewardForm(), idform=RewardIdForm(), containerclass="rewardcontainer")
+			return render_template('rewards.html', username=user.username, points=user.points, rewards=rewards, form=RewardForm(), idform=RewardIdForm(), updateform=RewardUpdateForm(), containerclass="rewardcontainer")
 	# if no session, display default home page. TODO: convert to splash page
 	else:
 		return redirect(url_for('front'))
@@ -130,6 +153,29 @@ def redeemed():
 		redeemed = user.rewards.filter(Reward.redeemed == True).order_by(desc(Reward.dateredeemed)).all()			
 		return render_template('redeemed.html', username=user.username, points=user.points, redeemed=redeemed, idform=RewardIdForm(), containerclass="rewardcontainer")
 	# if no session, display default home page. TODO: convert to splash page
+	else:
+		return redirect(url_for('front'))
+
+@app.route('/rewardupdate', methods=['GET', 'POST']) # instead of using a separate page for task details, convert this into an update function
+def rewardupdate():
+	if 'userid' in session:
+		user = User.query.get_or_404(session['userid'])
+		if request.method == 'POST':
+			updateform = RewardUpdateForm(request.form)
+			if updateform.validate():
+				reward = Reward.query.get_or_404(updateform.rewardid.data)
+				if reward.userid == user.id:
+					# update fields
+					reward.title = updateform.title.data
+					reward.cost = updateform.cost.data
+					#task.datedue = updateform.datedue.data
+					db.session.commit()
+				return redirect(url_for('rewards'))
+			else:
+				rewards = user.rewards.filter(Reward.redeemed == False).order_by(desc(Reward.dateadded)).all()
+				return render_template('rewards.html', username=user.username, points=user.points, rewards=rewards, form=RewardForm(), idform=RewardIdForm(), updateform=updateform, containerclass="rewardcontainer" )
+		else:
+			return redirect(url_for('rewards'))
 	else:
 		return redirect(url_for('front'))
 	
@@ -146,7 +192,7 @@ def redeem():
 				reward.dateredeemed = datetime.utcnow()
 				user.points -= reward.cost
 				db.session.commit()
-				return redirect(url_for('rewards'))
+			return redirect(url_for('rewards'))
 		else:
 			return redirect(url_for('rewards'))
 	else:
@@ -165,10 +211,10 @@ def deletereward():
 				if reward.userid == user.id:
 					db.session.delete(reward)
 					db.session.commit()
-				if form.referpage.data == "redeemed":
-					return redirect(url_for('redeemed'))
-				else:
-					return redirect(url_for('rewards'))
+			if form.referpage.data == "redeemed":
+				return redirect(url_for('redeemed'))
+			else:
+				return redirect(url_for('rewards'))
 		else:			
 			return redirect(url_for('rewards'))
 	else:

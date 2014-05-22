@@ -124,6 +124,10 @@
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
+.listitem a{
+	background-color: #fff;
+	color: #006666;
+}
 
 .rewarditem{
 	background-color: #fff;
@@ -159,7 +163,7 @@
 }
 
 .listaddtitle {
-	color: 006666;
+	color: #006666;
 	font-size: 1em;
 }
 
@@ -169,6 +173,14 @@
 	text-align: center;
 	color: #f8d547;
 	font-size: 2.5em;
+}
+
+.valupdate {
+	font-size: 1em;
+	color: #f8d547;
+	text-align:right;
+	width: 75px;
+	height: 75px;
 }
 
 .rewardcontrols .btn{
@@ -202,6 +214,14 @@
 	text-align: center;
 	color: #006666;
 	font-size: 2.5em;
+}
+
+.costupdate {
+	font-size: 1em;
+	color: #006666;
+	text-align:right;
+	width: 75px;
+	height: 75px;
 }
 
 .footer {

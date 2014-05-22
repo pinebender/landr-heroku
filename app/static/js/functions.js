@@ -8,10 +8,12 @@ $(document).ready(function() {
 
 	})
 */
+/*
 	if ($("#reloadform").is('*'))
 	{
-		// $(document).scrollTop( $("#addform").offset().top);
+		$(document).scrollTop( $("#addform").offset().top);
 	}
+*/
 
 	$("#showaddform").click(function()
 	{
@@ -19,8 +21,7 @@ $(document).ready(function() {
 		$("#addtask").fadeIn(0);
 		$("#addreward").fadeIn(0);
 		$("#cancelbutton").fadeIn(0);
-		$("#submitbutton").fadeIn(0);
-		// $(document).scrollTop( $("#addform").offset().top );		
+		$("#submitbutton").fadeIn(0);	
 	});
 
 	$("#regclick").click(function()
@@ -34,6 +35,29 @@ $(document).ready(function() {
 		$("#regform").fadeOut(0);
 		$("#loginform").fadeIn();
 		
+	});
+
+	$(".editbutton").click(function()
+	{
+		var id = $( this ).val();
+		
+		var text = $("#titletext"+id).val();
+		$("#updatetext"+id).val(text);
+		
+		$("#editbutton"+id).hide();
+		
+		$("#displaytask"+id).hide();
+		$("#displayreward"+id).hide();
+
+		$("#taskedit"+id).show();
+		$("#rewardedit"+id).show();
+
+		$("#updatetext"+id).focus()
+		$("#saveedit"+id).show();
+	})
+
+	$(function() {
+		$("#datepicker").datepicker();
 	});
 
 });

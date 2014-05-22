@@ -1,6 +1,6 @@
 from flask_wtf import Form
 from wtforms import TextField, IntegerField, BooleanField, PasswordField, HiddenField, validators 
-from wtforms import TextAreaField
+from wtforms import TextAreaField, DateTimeField, DateField
 from wtforms.validators import Required, EqualTo, Optional, Length, Email, NumberRange
 
 
@@ -19,13 +19,31 @@ class TaskForm(Form):
 	title = TextAreaField('Title', [validators.Required(), validators.Length(max=300, message="Please enter a title between 0 and 300 characters in length")])
 	value = IntegerField('Value', [validators.NumberRange(min=0, max=1000, message="Please enter a non-negative number between 0 and 1000")])
 
+class TaskIdForm(Form):
+	taskid = HiddenField('TaskID', [validators.NumberRange(min=0)])
+	referpage = HiddenField('RefPage')
+
+class TaskUpdateForm(Form):
+	title = TextAreaField('Title', [validators.Required(), validators.Length(max=300, message="Please enter a title between 0 and 300 characters in length")])
+	titletext = HiddenField('Title Text')
+	# body = TextAreaField('Description', [validators.Length(max=1000, message="Please enter a description between 0 and 1000 characters in length")])
+	value = IntegerField('Value', [validators.NumberRange(min=0, max=1000, message="Please enter a non-negative number between 0 and 1000")])
+	# datedue = DateTimeField('Due Date', format='%Y-%m-%d %h:%m:%s')
+	taskid = HiddenField('TaskID', [validators.NumberRange(min=0)])
+
+
 class RewardForm(Form):
 	title = TextAreaField('Title', [validators.Required(), validators.Length(max=300, message="Please enter a title between 0 and 300 characters in length")])
 	cost = IntegerField('Cost', [validators.NumberRange(min=0, max=1000, message="Please enter a non-negative number between 0 and 1000")])
 
-class TaskIdForm(Form):
-	taskid = HiddenField('TaskID', [validators.NumberRange(min=0)])
-	referpage = HiddenField('RefPage')
+class RewardUpdateForm(Form):
+	title = TextAreaField('Title', [validators.Required(), validators.Length(max=300, message="Please enter a title between 0 and 300 characters in length")])
+	titletext = HiddenField('Title Text')
+	# body = TextAreaField('Description', [validators.Length(max=1000, message="Please enter a description between 0 and 1000 characters in length")])
+	cost = IntegerField('Value', [validators.NumberRange(min=0, max=1000, message="Please enter a non-negative number between 0 and 1000")])
+	# datedue = DateTimeField('Due Date', format='%Y-%m-%d %h:%m:%s')
+	rewardid = HiddenField('RewardID', [validators.NumberRange(min=0)])
+
 
 class RewardIdForm(Form):
 	rewardid = HiddenField('RewardID', [validators.NumberRange(min=0)])

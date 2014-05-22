@@ -7,11 +7,11 @@
 	</div>
 	<div class="col-md-1">
 		{% if form.title.errors or form.value.errors %}
-		<h3 style="display: none"><a href="#" id="showaddform">[<span class="glyphicon glyphicon-plus">]</span></a></h3>
-		<h3 id="cancelbutton" style=""><a href="{{ url_for('tasks') }}" >[<span style="font-weight: bold; ">X</span>]</a></h3>
+		<h3 style="display: none"><a href="#" id="showaddform" title="Add a task">[<span class="glyphicon glyphicon-plus">]</span></a></h3>
+		<h3 id="cancelbutton" style="vertical-align: bottom"><a href="{{ url_for('tasks') }}" title="Cancel">[<span class="glyphicon glyphicon-remove"></span>]</a></h3>
 		{% else %}
-		<h3><a href="#" id="showaddform">[<span class="glyphicon glyphicon-plus">]</span></a></h3>
-		<h3 id="cancelbutton" style="display: none"><a href="{{ url_for('tasks') }}" >[<span style="font-weight: bold; ">X</span>]</a></h3>
+		<h3 style="vertical-align: bottom"><a href="#" id="showaddform" title="Add a task">[<span class="glyphicon glyphicon-plus">]</span></a></h3>
+		<h3 id="cancelbutton" style="display: none" title="Cancel"><a href="{{ url_for('tasks') }}" >[<span class="glyphicon glyphicon-remove"></span>]</a></h3>
 		{% endif %}
 	</div>
 	<div class="col-md-10" style="text-align: right">	
@@ -61,47 +61,75 @@
 				<div class="col-md-1 col-sm-2 col-xs-2">
 					<h4 style="text-align: right;">Value</h4>
 				</div>
-				<div class="col-md-1 col-sm-1 col-xs-1">
-					<h4 style="text-align: center;">Complete</h4>
+				<div class="col-md-2 col-sm-2 col-xs-2">
+					<h4 style="text-align: center;"></h4>
 				</div>
-				<div class="col-md-1 col-sm-1 col-xs-1">
-					<h4 style="text-align: center;">Remove</h4>
-				</div>
+
 			</div>
 		</div>
 	{% for task in tasks %}
 		<div class="listitem">
 			<div class="row">
-				<div class="col-md-7 col-sm-4 col-xs-4">
-					<h3 style="margin-left: 10px">{{ task.title }}</h3>
+				<div id ="displaytask{{ task.id }}">
+					<div class="col-md-7 col-sm-4 col-xs-4">
+						<h3 id="title{{ task.id }}" style="margin-left: 10px">{{ task.title }}</h3>
+					</div>
+					<div class="col-md-2 col-sm-4 col-xs-4">
+						<h3>{{ task.dateadded.strftime('%b. %d, %Y') }}</h3>
+					</div>
+					<div class="col-md-1 col-sm-2 col-xs-2">
+						<h1 id="value{{ task.id }}" style="font-size: 2.5em; color: #f8d547; text-align: right;">{{ task.value }}</h1>
+					</div>
 				</div>
-				<div class="col-md-2 col-sm-4 col-xs-4">
-					<h3>{{ task.dateadded.strftime('%b. %d, %Y') }}</h3>
-				</div>
-				<div class="col-md-1 col-sm-2 col-xs-2">
-					<h1 style="font-size: 2.5em; color: #f8d547; text-align: right;">{{ task.value }}</h1>
-				</div>
-				
 
-				<div class="col-md-1 col-sm-1 col-xs-1 listcontrols" style="text-align: center">
-					<form method="POST" action="/completetask" id="comptask{{ task.id }}">
-						{{ idform.csrf_token }} 
-						{{ idform.taskid(value=task.id, id="comptask"~task.id, form="comptask"~task.id) }}
+				<div id="taskedit{{ task.id }}" style="display: none">	
+					<form id="updateform{{ task.id }}" method="POST" action="/taskupdate">
+						{{ updateform.csrf_token }}
+						{{ updateform.titletext(id="titletext"~task.id, value=task.title) }}
+						{{ updateform.taskid(value=task.id, form="updateform"~task.id) }}
+						<div class="col-md-7 col-sm-4 col-xs-4">
+							<h3 style="margin-left: 10px">{{ updateform.title(id="updatetext"~task.id, form="updateform"~task.id, class="form-control listaddtitle", placeholder=task.title) }}</h3>
+						</div>
+						<div class="col-md-2 col-sm-4 col-xs-4">
+							<h3>{{ task.dateadded.strftime('%b. %d, %Y') }}</h3>
+						</div>
+						<div class="col-md-1 col-sm-2 col-xs-2">
+							<h1 style="font-size: 2.5em; color: #f8d547; text-align: right;">{{ updateform.value(form="updateform"~task.id, value=task.value, class="form-control valupdate") }}</h1>
+						</div>
 					</form>
-					<h3><button type="submit" class="btn btn-default btn-sm" form="comptask{{ task.id }}">[<span class="glyphicon glyphicon-ok"></span>]</button></h3>
-				</div>
-				
-
-				<div class="col-md-1 col-sm-1 col-xs-1 listcontrols">
-					<form method="POST" action="/deletetask" id="deltask{{ task.id }}">
-						{{ idform.csrf_token }}
-						{{ idform.taskid(value=task.id, id="deltask"~task.id, form="deltask"~task.id) }}
-						<!-- <input type="hidden" name="deltaskid" value="{{ task.id }}" form="deltask{{ task.id }}"> -->
-					</form>
-					
-					<h3 style="text-align:center"><button type="submit" class="btn btn-default btm-sm" form="deltask{{ task.id }}">[<span class="glyphicon glyphicon-minus"></span>]</button></h3>
 				</div>
 
+				<div class="col-md-2 col-sm-2 col-xs-2">
+					<div class="row">
+						<div class="col-md-6 col-sm-6 col-xs-6 listcontrols" style="text-align: center">
+							<form method="POST" action="/completetask" id="comptask{{ task.id }}">
+								{{ idform.csrf_token }} 
+								{{ idform.taskid(value=task.id, id="comptask"~task.id, form="comptask"~task.id) }}
+							</form>
+							<h4><button type="submit" title="Complete Task" class="btn btn-default btn-sm" form="comptask{{ task.id }}">[<span class="glyphicon glyphicon-ok"></span>]</button></h4>
+						</div>
+						
+						<div class="col-md-6 col-sm-6 col-xs-6 listcontrols" style="text-align: center">
+							<form method="POST" action="/deletetask" id="deltask{{ task.id }}">
+								{{ idform.csrf_token }}
+								{{ idform.taskid(value=task.id, id="deltask"~task.id, form="deltask"~task.id) }}
+							</form>
+							<h4><button type="submit" title="Remove Task" class="btn btn-default btm-sm" form="deltask{{ task.id }}">[<span class="glyphicon glyphicon-minus"></span>]</button></h4>
+						</div>
+					</div>
+					<div class="row" >
+						<div class="col-md-6 col-sm-6 col-xs-6 listcontrols" style="text-align: center; margin-top: -20px">
+							<h4><button id="editbutton{{ task.id }}" title="Edit Task" class="btn btn-default btn-sm editbutton" value="{{ task.id }}">[<span class="glyphicon glyphicon-edit"></span>]</button></h4>
+							<h4><button type="submit" form="updateform{{ task.id }}" id="saveedit{{ task.id }}" title="Save Edit" class="btn btn-default btn-sm saveeditbtn" value="{{ task.id }}" style="display:none">[<span class="glyphicon glyphicon-pencil"></span>]</button></h4>
+						</div>
+						
+						<div class="col-md-6 col-sm-6 col-xs-6 listcontrols" style="text-align: center; margin-top: -20px">
+							
+							<h4><button title="Set an Alert" class="btn btn-default btm-sm">[<span class="glyphicon glyphicon-bell"></span>]</button></h4>
+						</div>
+					</div>
+
+				</div>
 			</div>
 		</div>
 	{% endfor %}
