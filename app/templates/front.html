@@ -11,8 +11,8 @@
 	</head>
 
 	<body class="{{ containerclass }}">
-		<div style="position:fixed; height: 100%; width: 100%; top: 0%; left:0%;">
-			<div style="height: 20%">
+		<div style="position:absolute; height: 100%; width: 100%; top: 0%; left:0%;">
+			<div style="height: 15%">
 			</div>
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div style="text-align: center"> 
@@ -27,7 +27,7 @@
 			<div class="col-md-12 col-sm-12 col-xs-12">
 			<!-- Login/Registration Forms -->
 				<div class="col-md-5 col-sm-2 col-xs-2"></div>
-				<div class="col-md-2 col-sm-8 col-xs-8 loginform">
+				<div class="col-md-2 col-sm-8 col-xs-8 loginform" style="margin-bottom:20px">
 					
 					{% if regform.username.errors or regform.password.errors %}
 					<form id="loginform" role="form" action="{{url_for('login')}}" method="POST" style="display: none">
