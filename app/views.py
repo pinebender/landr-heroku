@@ -5,8 +5,9 @@ from models import User, Task, Reward, db
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import desc
 from forms import RegistrationForm, LoginForm, TaskForm, RewardForm, TaskIdForm, RewardIdForm, TaskUpdateForm, RewardUpdateForm
+from flask.ext.mail import Mail, Message
 
-
+mail = Mail(app)
 # TODO: turn this section into views.py
 @app.route('/')
 def front():
@@ -120,6 +121,12 @@ def completetask():
 			return redirect(url_for('tasks'))
 	else:
 		return redirect(url_for('front'))
+
+@app.route('/setalert', methods=['GET', 'POST'])
+def setalert():
+	if 'userid' in session:
+		user = User.query.get_or_404(session['userid'])
+		
 
 
 @app.route('/rewards', methods=['GET', 'POST'])
@@ -265,14 +272,20 @@ def register():
 			usernm = form.username.data
 			pw = form.password.data
 			verify = form.verify.data
+			email = form.email.data
 			userquery = User.query.filter_by(username=usernm.lower()).first()
+			emailquery = User.query.filter_by(email=email.lower()).first()
 			
-			# if query returns a user from database, check if it matches post data
+			# if query returns a user or email address from database, check if it matches post data
 			if userquery != None:
 				# convert name data from POST to lowercase and check vs database (name also in lowercase)
 				if usernm.lower() == userquery.username:
 					#flash("Username is already in use. Please choose another.")
 					form.username.errors.append("Username is already in use. Please choose another.")
+					return render_template('front.html', regform=form, loginform=LoginForm(), containerclass="frontcontainer")
+			if emailquery != None:
+				if email.lower() == emailquery.email:
+					form.email.errors.append("Email address is already in use. Please use another.")
 					return render_template('front.html', regform=form, loginform=LoginForm(), containerclass="frontcontainer")
 			
 			# if query does not return a name, check if form passwords match
@@ -284,8 +297,7 @@ def register():
 			# if passwords match, hash the password and store the user in database, username in lowercase
 			elif pw == verify:
 				pwhash = generate_password_hash(pw)
-				
-				newuser = User(usernm.lower(), pwhash)			
+				newuser = User(usernm.lower(), email.lower(), pwhash)			
 				db.session.add(newuser)
 				
 				newtask = Task("Welcome to List and Reward. Have a free point!", newuser, None, 1)
@@ -295,6 +307,11 @@ def register():
 				db.session.add(newreward)
 				
 				db.session.commit()
+
+				msg = Message("L+R Registration Successful", sender=("List and Reward", "notifications@listandreward.com"), recipients=[newuser.email])
+				msg.body = "Thanks for registering!"
+				mail.send(msg)
+
 				session['userid'] = newuser.id
 				return redirect(url_for('tasks'))
 

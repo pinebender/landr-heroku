@@ -52,7 +52,7 @@
 
 				 		<button type="submit" form="loginform" class='btn btn-default'>Submit</button>
 					</form>
-					{% if regform.username.errors or regform.password.errors %}
+					{% if regform.username.errors or regform.email.errors or regform.password.errors %}
 					<form id="regform" role="form" action="{{url_for('register')}}" method="POST">
 					{% else %}
 					<form id="regform" role="form" action="{{url_for('register')}}" method="POST" style="display: none">
@@ -62,6 +62,11 @@
 				 		<p>{{ regform.username.label }}</p>
 				 		<p class="logininput">{{ regform.username(placeholder="Username") }}</p>
 				 		{% for error in regform.username.errors %}
+						<span style="color: #006666">{{ error }}</span>
+						{% endfor %}
+						<p>{{ regform.email.label }}</p>
+						<p class="logininput">{{ regform.email(placeholder="Email Address") }}</p>
+						{% for error in regform.email.errors %}
 						<span style="color: #006666">{{ error }}</span>
 						{% endfor %}
 				 		<p>{{ regform.password.label }}</p>
