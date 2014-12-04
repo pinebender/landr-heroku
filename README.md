@@ -8,4 +8,4 @@ Keep a wish list and use those points to reward yourself.
 
 demo:
 
-http://listandreward.com
+http://www.listandreward.com
